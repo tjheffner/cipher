@@ -14,6 +14,12 @@ This module takes 3 user inputs: a message, a direction, and a value. The output
 1. `git clone` this repository into sites/all/modules of the drupal installation you're adding it to.
 2. enable the module in the drupal modules menu
 
+#### Passwords
+
+db + site management account:password
+
+epicodus:epicodus
+
 #### Technologies
 
 * Drupal 7
