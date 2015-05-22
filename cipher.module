@@ -7,13 +7,13 @@ function cipher_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cipher_form'),
     'access callback' => TRUE,
-    'type' => 'MENU_NORMAL_ITEM',
+    'type' => MENU_NORMAL_ITEM,
   );
   $items['success'] = array(
     'title' => 'Encrypted Successfully!',
     'page callback' => 'cipher_success',
     'access callback' => TRUE,
-    'type' => 'MENU_CALLBACK',
+    'type' => MENU_CALLBACK,
   );
 
   return $items;
@@ -24,7 +24,7 @@ function cipher_form() {
     '#title' => 'Shift Number',
     '#type' => 'textfield',
     '#description' => t('Enter a value to shift your message by'),
-    '#element_validate' => array('element_validate_integer_positive'),
+    '#element_validate' => array('element_validate_integer_positive', 'element_validate_range'),
     '#required' => TRUE,
   );
   $form['shift_direction'] = array(
@@ -57,6 +57,12 @@ function element_validate_direction($element) {
   if (!in_array($direction, $valid_direction)) {
         form_error($element, t('Choose a valid direction to shift.'));
     }
+}
+
+function element_validate_range($element) {
+  if ($element['#value'] > 25 || $element['#value'] < 1) {
+        form_error($element, t('Please enter a number between 1 and 25 (inclusive).'));
+  }
 }
 
 function cipher_form_submit($form, &$form_state) {
