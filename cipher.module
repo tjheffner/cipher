@@ -22,21 +22,21 @@ function cipher_form() {
   $form['shift_value'] = array(
     '#title' => 'Shift Number',
     '#type' => 'textfield',
-    '#description' => 'Enter a value to shift your message by',
+    '#description' => t('Enter a value to shift your message by'),
     '#element_validate' => array('element_validate_integer_positive'),
     '#required' => TRUE,
   );
   $form['shift_direction'] = array(
     '#title' => 'Shift Direction',
     '#type' => 'textfield',
-    '#description' => 'Enter direction to shift (left or right)',
+    '#description' => t('Enter direction to shift (left or right)'),
     '#element_validate' => array('element_validate_direction'),
     '#required' => TRUE,
   );
   $form['shift_phrase'] = array(
     '#title' => 'Message to Encrypt',
     '#type' => 'textfield',
-    '#description' => 'What are you trying to hide?',
+    '#description' => t('What are you trying to hide?'),
     '#element_validate' => '',
     '#required' => TRUE,
   );
@@ -48,13 +48,23 @@ function cipher_form() {
 }
 
 function element_validate_direction($element) {
+  $direction = $element['$value'];
+  $valid_directions = array(
+    'left', 'L',
+    'right', 'R'
+  );
 
+  if (!in_array($direction, $valid_direction)) {
+        form_error($element, t('Choose a valid direction to shift.'));
+    }
 }
 
 function cipher_form_submit($form, &$form_state) {
+  $value = $form_state['values']['shift_value'];
+  $direction = $form_state['values']['shift_direction'];
+  $message = $form_state['values']['shift_phrase'];
 
 }
-
 
 function cipher_success() {
 
