@@ -76,7 +76,6 @@ function cipher_form_submit($form, &$form_state) {
 }
 
 function cipher_success() {
-  return "this works!";
 
   $input = $_SESSION['input'];
 
