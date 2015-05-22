@@ -50,8 +50,8 @@ function cipher_form() {
 function element_validate_direction($element) {
   $direction = $element['#value'];
   $valid_directions = array(
-    'left', 'L',
-    'right', 'R'
+    'left', 'L', 'LEFT',
+    'right', 'R', 'RIGHT'
   );
 
   if (!in_array($direction, $valid_directions)) {
@@ -77,4 +77,38 @@ function cipher_form_submit($form, &$form_state) {
 
 function cipher_success() {
   return "this works!";
+
+  $input = $_SESSION['input'];
+
+   $message = $input[2];
+   $direction = $input[1];
+   $value = $input[0];
+
+   $shift = ($direction == 'left' || 'L' || 'LEFT') ? 0 - $value : $value;
+
+   $secret = "";
+   //loop through the string and convert the letters
+   for($i = 0; $i < strlen($message); $i++) {
+       //if it's a space or punct, skip to the next letter
+       if(preg_match('/[ ,.!?;:]/', $message[$i])) {
+           $encryption .= $message[$i];
+           continue;
+       }
+       //lowercase the letter then turn it into ascii
+       $ascii = ord(strtolower($message[$i]));
+       //add/sub the shift to the ascii
+       $ascii += $shift;
+       //if it's less than 97, add 26 to wrap to the end of the alphabet
+       if($ascii < 97) {
+           $ascii += 26;
+       }
+       elseif($ascii > 122) {
+           $ascii -= 26;
+       }
+       //add the new letter to the string
+       $secret .= chr($ascii);
+   }
+   return "<h2><strong>Your encrypted message is:</strong> $secret</h2>";
+
+
 }
