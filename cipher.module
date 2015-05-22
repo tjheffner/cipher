@@ -70,6 +70,9 @@ function cipher_form_submit($form, &$form_state) {
   $direction = $form_state['values']['shift_direction'];
   $message = $form_state['values']['shift_phrase'];
 
+  $_SESSION['input'] = array($value, $direction, $message);
+
+  $form_state['redirect'] = 'success';
 }
 
 function cipher_success() {
