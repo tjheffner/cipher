@@ -71,7 +71,9 @@ function element_validate_range($element) {
 }
 
 function element_validate_letters($element) {
-
+  if(preg_match('/[^a-zA-Z ,.!?;:]/', $element['#value'])) {
+         form_error($element, t('We can\'t encrypt numbers at this time.'));
+     }
 }
 
 //SESSION VARIABLES!
