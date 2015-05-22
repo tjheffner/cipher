@@ -1,6 +1,7 @@
 <?php
 
 function cipher_menu() {
+  $items = array();
   $items['encrypt'] = array(
     'title' => 'Encrypt a Message',
     'page callback' => 'drupal_get_form',
