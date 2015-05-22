@@ -37,7 +37,6 @@ function cipher_form() {
     '#title' => 'Message to Encrypt',
     '#type' => 'textfield',
     '#description' => t('What are you trying to hide?'),
-    '#element_validate' => '',
     '#required' => TRUE,
   );
   $form['submit'] = array(

@@ -1,5 +1,5 @@
 name = Cipher
 description = A simple module for encrypting user messages with a shift cipher.
-package = Assessment
+package = Epicodus Examples
 core = 7.x
 files[] = cipher.module
