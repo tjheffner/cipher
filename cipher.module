@@ -55,8 +55,8 @@ function cipher_form() {
 function element_validate_direction($element) {
   $direction = $element['#value'];
   $valid_directions = array(
-    'left', 'L', 'LEFT',
-    'right', 'R', 'RIGHT'
+    'left', 'L', 'LEFT', 'l',
+    'right', 'R', 'RIGHT', 'r'
   );
 
   if (!in_array($direction, $valid_directions)) {
