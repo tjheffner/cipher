@@ -107,7 +107,7 @@ function cipher_success() {
        //add the new letter to the string
        $secret .= chr($ascii);
    }
-   return "<h2><strong>Your encrypted message is:</strong> $secret</h2>";
+   return "Your encrypted message is: <strong>$secret</strong><br>" . "The key to break your message is: $value <br>" . "Keep that a secret!" ;
 
 
 }
