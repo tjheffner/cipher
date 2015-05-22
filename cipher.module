@@ -1,5 +1,6 @@
 <?php
 
+//MENU SETUP
 function cipher_menu() {
   $items = array();
   $items['encrypt'] = array(
@@ -19,11 +20,13 @@ function cipher_menu() {
   return $items;
 }
 
+//FORM SETUP
 function cipher_form() {
   $form['shift_phrase'] = array(
     '#title' => 'Message to Encrypt',
     '#type' => 'textfield',
     '#description' => t('What are you trying to hide?'),
+    '#element_validate' => array('element_validate_letters'),
     '#required' => TRUE,
   );
   $form['shift_value'] = array(
@@ -47,6 +50,8 @@ function cipher_form() {
   return $form;
 }
 
+
+//VALIDATION FUNCTIONS
 function element_validate_direction($element) {
   $direction = $element['#value'];
   $valid_directions = array(
@@ -65,6 +70,11 @@ function element_validate_range($element) {
   }
 }
 
+function element_validate_letters($element) {
+
+}
+
+//SESSION VARIABLES!
 function cipher_form_submit($form, &$form_state) {
   $value = $form_state['values']['shift_value'];
   $direction = $form_state['values']['shift_direction'];
@@ -75,39 +85,43 @@ function cipher_form_submit($form, &$form_state) {
   $form_state['redirect'] = 'success';
 }
 
+//WHERE THE MAGIC HAPPENS
 function cipher_success() {
 
+//gets our values out so we have something to work with
   $input = $_SESSION['input'];
 
    $message = $input[2];
    $direction = $input[1];
    $value = $input[0];
 
+//interprets "left" & "right" directions as positive / negative
    $shift = ($direction == 'left' || 'L' || 'LEFT') ? 0 - $value : $value;
 
+//empty string for the start of encryption
    $secret = "";
-   //loop through the string and convert the letters
-   for($i = 0; $i < strlen($message); $i++) {
-       //if it's a space or punct, skip to the next letter
+
+   for ($i = 0; $i < strlen($message); $i++) {
+
+//skips punctuation + spaces
        if(preg_match('/[ ,.!?;:]/', $message[$i])) {
-           $encryption .= $message[$i];
+           $secret .= $message[$i];
            continue;
        }
-       //lowercase the letter then turn it into ascii
+
+//converts to ascii + lowercase, adds shifted value/letter
        $ascii = ord(strtolower($message[$i]));
-       //add/sub the shift to the ascii
        $ascii += $shift;
-       //if it's less than 97, add 26 to wrap to the end of the alphabet
+
+//26 is for letters in the alphabet, 97/122 keep the ascii within alphabetical characters. no umlauts!
        if($ascii < 97) {
            $ascii += 26;
        }
        elseif($ascii > 122) {
            $ascii -= 26;
        }
-       //add the new letter to the string
        $secret .= chr($ascii);
    }
-   return "Your encrypted message is: <strong>$secret</strong><br>" . "The key to break your message is: $value <br>" . "Keep that a secret!" ;
-
+   return "Your encrypted message is: <strong>$secret</strong><br>" . "The key to break your message is:<strong> $value </strong><br>" . "<em>Keep that a secret!</em>" ;
 
 }
