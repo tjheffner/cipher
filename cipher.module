@@ -20,6 +20,12 @@ function cipher_menu() {
 }
 
 function cipher_form() {
+  $form['shift_phrase'] = array(
+    '#title' => 'Message to Encrypt',
+    '#type' => 'textfield',
+    '#description' => t('What are you trying to hide?'),
+    '#required' => TRUE,
+  );
   $form['shift_value'] = array(
     '#title' => 'Shift Number',
     '#type' => 'textfield',
@@ -34,12 +40,6 @@ function cipher_form() {
     '#element_validate' => array('element_validate_direction'),
     '#required' => TRUE,
   );
-  $form['shift_phrase'] = array(
-    '#title' => 'Message to Encrypt',
-    '#type' => 'textfield',
-    '#description' => t('What are you trying to hide?'),
-    '#required' => TRUE,
-  );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Encrypt Message'
@@ -48,13 +48,13 @@ function cipher_form() {
 }
 
 function element_validate_direction($element) {
-  $direction = $element['$value'];
+  $direction = $element['#value'];
   $valid_directions = array(
     'left', 'L',
     'right', 'R'
   );
 
-  if (!in_array($direction, $valid_direction)) {
+  if (!in_array($direction, $valid_directions)) {
         form_error($element, t('Choose a valid direction to shift.'));
     }
 }
